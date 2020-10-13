@@ -16,21 +16,41 @@ class UserController extends Controller
     public function index()
     {
         //
-        $datosusuario = [];
+        $datosusuario = array();
         $users = DB::table('users')->get();
-        echo $users[0]->id;
         foreach ($users as $user) {
             $user_domicilio = DB::table('user_domicilio')->where('id', $user->id)->first();
             $fecha_actual = date("d-m-Y");
             $date1 = new DateTime("now");
             $diff = $date1->diff(new DateTime($user->fecha_nacimento));
-            $temp = [];
-            array_push($temp,$user,$user_domicilio,array("edad" => $diff->y));
+            $temp = array(
+                "Nombre" => $user->name,
+                "Fecha" => $user->fecha_nacimento,
+                "Edad" => $diff->y,
+                "Direccion" => $user_domicilio->domicilio." ".$user_domicilio->numero_exterior." ".$user_domicilio->colionia." ".$user_domicilio->cp." ".$user_domicilio->ciudad
+            );
+            
+            array_push($datosusuario, $temp);
+        }
+        foreach ($users as $user) {
+            $user_domicilio = DB::table('user_domicilio')->where('id', $user->id)->first();
+            $fecha_actual = date("d-m-Y");
+            $date1 = new DateTime("now");
+            $diff = $date1->diff(new DateTime($user->fecha_nacimento));
+            $temp = array(
+                "Nombre" => $user->name,
+                "Fecha" => $user->fecha_nacimento,
+                "Edad" => $diff->y,
+                "Direccion" => $user_domicilio->domicilio." ".$user_domicilio->numero_exterior." ".$user_domicilio->colionia." ".$user_domicilio->cp." ".$user_domicilio->ciudad
+            );
+            
             array_push($datosusuario, $temp);
         }
 
-        //var_dump($datosusuario);
-        return $datosusuario;
+        
+        header('Content-type: application/json');
+        return response($datosusuario);
+        //return json_encode($datosusuario);
     }
 
     /**
