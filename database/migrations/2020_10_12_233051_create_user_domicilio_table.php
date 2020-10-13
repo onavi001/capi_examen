@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UserDomicilio extends Migration
+class CreateUserDomicilioTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,9 +18,10 @@ class UserDomicilio extends Migration
             $table->string('user_id');
             $table->string('domicilio');
             $table->string('numero_exterior');
-            $table->string('colonia');
+            $table->string('colionia');
             $table->string('cp');
             $table->string('ciudad');
+            $table->timestamps();
         });
     }
 
